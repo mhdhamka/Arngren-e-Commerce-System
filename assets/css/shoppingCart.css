@@ -1,0 +1,260 @@
+       
+/********** Shop Cart CSS **********/
+       
+       *{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		h1{
+			position: absolute;
+			left: 225px;
+			top: 15px;
+			font-size: 55px;
+			color: white;
+			font-family: Arial black;
+		}
+		
+		h2{
+			position: absolute;
+			left: 225px;
+			top: 75px;
+			color: #ecd846;
+			font-family: Arial black;
+		}
+		
+		table tr th {
+			background-color: #7a3835;
+		}
+		
+		.headercontainer {
+			border-bottom: 2px solid #ecd846;
+		}
+
+		.ad {
+			margin: 2.5% 10% 2.5% 10%;
+			height: 20%;
+			width: 80%;
+			align-items: center;
+			background-image: linear-gradient(#ffe4e3, #eba3a0, #c45b56);
+		}
+
+		.ad img {
+			width: 1000px;
+			height: 500px;
+		}
+
+		.featured {
+			max-width: 1080px;
+			margin: 2.5% 10% 2.5% 10%;
+		}
+
+		.featured a {
+			margin: 0 0 2.5% ;
+		}
+
+		.featuredrow {
+			
+		}
+
+		.featuredcolumn {
+			border: 2px solid lightgrey;
+			border-radius: 5px;
+			min-width: 200px;
+			padding: 5px;
+		}
+
+		.featuredcolumn img {
+			width: 100%;
+		}
+
+		.featuredcolumn {
+		  float: left;
+		  width: 25%;
+		  padding: 10px;
+		  height: 350px;
+		}
+
+		/* Clear floats after the columns */
+		.featuredrow:after {
+		  content: "";
+		  display: table;
+		  clear: both;
+		}
+
+		.content h2 {
+			color: black;
+			font-family: Georgia, serif;
+			font-size: 45px;
+		}
+
+		.content {
+			font-family: Helvetica;
+			padding: 10px;
+			background: #f1f1f1;
+		}
+
+		.centernav{
+			position: absolute;
+			left: 224px;
+			top: 25px;
+			font-size: 14.5px;
+			color: white;
+			font-family: Helvetica;
+		}
+
+		.centernav ul li {
+			display: inline-block;
+			list-style-type: none;
+		}
+
+		.centernav a.active {
+		  color: #ecd846;
+		}
+
+		.centernav a:hover:not(.active) {
+		  color: #ecd846;
+		}
+
+		.topnav{
+			display: flex;
+			align-items: top;
+			padding: 10px;
+		}
+
+		.topnav nav{
+			flex: 1;
+			position: absolute;
+			left: 1050px;
+			text-align: right;
+		}
+
+		.topnav nav ul{
+			display: inline-block;
+			list-style-type: none;
+		}
+
+		.topnav li{
+			color: white;
+		}
+
+		.topnav nav ul li{
+			display: inline-block;
+			margin-right: 20px;
+		}
+
+		.topnav a{
+			text-decoration: none;
+			font-family: Helvetica;
+			color: white;
+		}
+		
+		.topnav span {
+			text-decoration: none;
+			font-family: Helvetica;
+			color: white;
+		}
+
+		.headercontainer{
+			max-width: 1300px;
+			margin: auto;
+			padding-left: 25px;
+			padding-right: 25px;
+		}
+
+		.header{
+			/*background-image: linear-gradient(#7a3835, #c45b56, #db7772);*/
+			background: #c45b56;
+		}
+
+
+		.footer{
+			text-align: center;
+			font-family: Helvetica;
+			color: lightgrey;
+			font-size: 12px;
+			border-top: 2px solid lightgrey;
+			margin: 40px;
+			padding: 20px;
+		}	
+
+		/* Create two unequal columns that floats next to each other */
+		/* Left column */
+		.leftcolumn {   
+		  float: left;
+		  width: 75%;
+		}
+
+		/* Right column */
+		.rightcolumn {
+		  float: left;
+		  width: 25%;
+		  background-color: #f1f1f1;
+		  padding-left: 20px;
+		}
+
+		/* Add a card effect for articles */
+		.card {
+		  background-color: white;
+		  padding: 20px;
+		  margin-top: 20px;
+		}
+
+		/* Clear floats after the columns */
+		.row:after {
+		  content: "";
+		  display: table;
+		  clear: both;
+		}
+
+		/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+		@media screen and (max-width: 800px) {
+		  .leftcolumn, .rightcolumn {   
+			width: 100%;
+			padding: 0;
+		  }
+		}
+
+		/* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+		@media screen and (max-width: 400px) {
+		  .topnav a {
+			float: none;
+			width: 100%;
+		  }
+		}
+
+		.button {
+			background-color: #4CAF50; /* Green */
+			border: none;
+			border-radius: 10px;
+			color: white;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+		}
+		
+		.content table {
+			width: 100%;
+			border: 1px solid black;
+		}
+		
+		.content thead, tbody, th, tr {
+			border: 1px solid black;
+			background: #c45b56;
+			padding: 2px;
+			color: #ecd846;
+		}
+		
+		button {
+			padding: 5px;
+			background: #c45b56;
+			color: #ecd846;
+		}
+		
+		button a {
+			color: #ecd846;
+			text-decoration: none;
+		}
