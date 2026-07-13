@@ -1,0 +1,212 @@
+/********** Update Account CSS **********/
+
+*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: Helvetica;
+		}
+		
+		body {
+			overflow-x: hidden;
+		}
+		
+		.container {
+			position: relative;
+			width: 100%;
+		}
+		
+		.sidebar {
+			position: fixed;
+			width: 325px;
+			height: 100%;
+			background: #c45b56;
+			transition: 0.5s;
+			overflow: hidden;
+		}
+		
+		.sidebar a.active {
+			background:  #ecd846;
+			color: #ecd846;
+		}
+		
+		.sidebar ul li a.active .icon .fa {
+			color: #c45b56;
+			font-size: 24px;
+		}
+		
+		.sidebar ul li a.active .title {
+			position: relative;
+			display: block;
+			padding: 0 10px;
+			height: 60px;
+			line-height: 60px;
+			color: #c45b56;
+			white-space: nowrap;
+		}
+		
+		
+		.sidebar ul {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+		}
+		
+		.sidebar ul li {
+			position: relative;
+			width: 100%;
+			list-style: none;
+		}
+
+		
+		.sidebar ul li:hover {
+			background: #7a3835;
+		}
+		
+		.sidebar ul li:nth-child(1) {
+			margin-bottom: 10px;
+		}
+		
+		.sidebar ul li:nth-child(1):hover {
+			background: transparent;
+		}
+		
+		.sidebar ul li a {
+			position: relative;
+			display: block;
+			width: 100%;
+			display: flex;
+			text-decoration: none;
+		}
+		
+		.sidebar ul li a .icon { 
+			position: relative;
+			display: block;
+			min-width: 60px;
+			height: 60px;
+			line-height: 60px;
+			text-align: center;
+		}
+		
+		.sidebar ul li a .icon .fa {
+			color: #ecd846;
+			font-size: 24px;
+		}
+		
+		.sidebar ul li a .title {
+			position: relative;
+			display: block;
+			padding: 0 10px;
+			height: 60px;
+			line-height: 60px;
+			color: #ecd846;
+			white-space: nowrap;
+		}
+		
+		.main {
+			position: absolute;
+			width: calc(100% - 325px);
+			left: 325px;
+			min-height: 100vh;
+			background: lightgrey;
+		}
+		
+		.main .topbar {
+			width: 100%;
+			background: white;
+			height: 60px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 20px;
+		}
+		
+		.main .topbar i {
+			font-size: 25px;
+		}
+		
+		.main .topbar small {
+			visibility: visible;
+			padding: 10px;
+		}
+		
+		.main .form-control {
+			padding: 20px;
+		}
+		
+		.main ul {
+			list-style-type: none;
+			overflow: hidden;
+			padding: 20px 20px 0 20px;
+		}
+		
+		.main ul li {
+			float: left;
+			padding-right: 10px;
+			color: #c45b56;
+		}
+		
+		.main ul li a {
+			display: block;
+			color: #c45b56;
+			text-decoration: none;
+		}
+		
+		.main ul li p {
+			display: block;
+			color: #c45b56;
+			text-decoration: none;
+		}
+		
+		.form-control {
+			padding-bottom: 20px;
+		}
+		
+		.form-control i {
+			color: #c45b56;
+		}
+		
+		.form-control label {
+			display: inline-block;
+			margin-bottom: 5px;
+		}
+		
+		.form-control input[type=text], input[type=email], input[type=password]{
+			border: 2px solid darkgrey;
+			border-radius: 5px;
+			display: block;
+			padding: 10px;
+			width: 50%;
+		}
+		
+		.form-control small{
+			visibility: hidden;
+		}
+		
+		.form-control input[type=submit] {
+			background-color: #c45b56;
+			padding: 5px;
+			border-radius: 4px;
+			border: 2px solid #7a3835;
+			color:  #ecd846;
+			width: 10%;
+		}
+		
+		.form-control.error small{
+			visibility: visible;
+			color: #c45b56;
+		}
+		
+		.form-control.success small{
+			visibility: hidden;
+		}
+		
+		.form-control.error input{
+			border-color: #c45b56;
+		}
+		
+		.form-control.success input{
+			border-color: #ecd846;
+		}
+			

@@ -55,255 +55,213 @@ $userID = $_SESSION['userID'];
 				
 				<nav>
 					<ul>
-						<?php
-						   global $conn;
-						   $sql = "SELECT fullName FROM user WHERE logStatus = 1;";
-						   $result = mysqli_query($conn, $sql);
-						
-						   if ($result -> num_rows > 0)
-						   {
-							  while ($row = $result -> fetch_assoc())
-							  {
-								?>
-									<li><a href = "../user/profile.php">My Profile</a></li>
-									<li>|</li>
-									<li><a href = "../auth/logout.php">Log Out</a></li>
-									<?php
-							  }
-							}
-							else
-							{
-								?>
-									<li><a href = "../auth/registration.php">Sign Up</a></li>
-									<li>|</li>
-									<li><a href = "../auth/login.php">Log In</a></li>
-								<?php
-							}
-							?>
+
+					<?php if(isset($_SESSION['userID'])) { ?>
+
+					    <li>
+							<span>
+								Welcome,
+								<?php echo $_SESSION['fullName']; ?>
+							</span>
+						</li>
+						<li>
+							<a href="../user/profile.php">
+								My Profile
+							</a>
+						</li>
+						<li>|</li>
+						<li>
+							<a href="../auth/logout.php">
+								Log Out
+							</a>
+						</li>
+
+					<?php } else { ?>
+
+						<li>
+							<a href="../auth/registration.php">
+								Sign Up
+							</a>
+						</li>
+						<li>|</li>
+						<li>
+							<a href="../auth/login.php">
+								Log In
+							</a>
+						</li>
+
+					<?php } ?>
+
 					</ul>
 				</nav>
 			</div>
 		</div>
 	</div>
 
-	<div class = "content">
-		<form>
-			<table class="cart-table">
-			<tr>
-				<th></th>
-				<th>Product</th>
-				<th>Price</th>
-				<th>Quantity</th>
-				<th>Subtotal (KR)</th>
-			</tr>
+	<div class="content">
+		<div class="cart-container">
+			<div class="cart-products">
+				<form id="deleteForm" action="clearCart.php" method="POST">
+					<div class="select-card">
+						<input type="checkbox" id="selectAll">
+						Select All Products
+					</div>
 
-			<?php
+					<?php
 
-			$total = 0;
-			$sql = "
+					$total = 0;
+					$sql = "
 
-			SELECT
+					SELECT
 
-			cart.cartID,
-			cart.orderQty,
+					cart.cartID,
+					cart.orderQty,
 
-			product.productName,
-			product.productPrice,
-			product.productIMG
+					product.productName,
+					product.productPrice,
+					product.productIMG,
+					product.productCtgry
 
-			FROM cart
+					FROM cart
 
-			INNER JOIN product
+					INNER JOIN product
 
-			ON cart.productID = product.productID
+					ON cart.productID = product.productID
 
-			WHERE cart.userID='$userID'
+					WHERE cart.userID='$userID'
 
-			";
+					";
 
-			$result=mysqli_query($conn,$sql);
 
-			if(mysqli_num_rows($result)>0)
-			{
-			while($row=mysqli_fetch_assoc($result))
+					$result=mysqli_query($conn,$sql);
+					while($row=mysqli_fetch_assoc($result)){
+					$subtotal = $row['orderQty'] * $row['productPrice'];
+					$total += $subtotal;
 
-			{
+					?>
 
-			$subtotal = $row['orderQty'] * $row['productPrice'];
-			$total += $subtotal;
+					<div class="shop-card">
+							<!-- STORE HEADER -->
+							<div class="shop-header">
+								
+							</div>
 
-			?>
+					<!-- PRODUCT BODY -->
 
-			<tr>
+					<div class="product-box" data-price="<?php echo $row['productPrice']; ?>">
+						<input 
+							type="checkbox"
+							class="product-check"
+							name="cartID[]"
+							value="<?php echo $row['cartID']; ?>"
+							data-price="<?php echo $row['productPrice']; ?>">
+						<img src="<?php echo $row['productIMG'];?>" class="product-image">
 
+						<div class="product-details">
 
-			<td>
-			    <a href="removeCart.php?cartID=<?php echo $row['cartID']; ?>">
-			        <i class="fa fa-minus-square"></i>
-			    </a>
-			</td>
+						<h3>
+							<?php echo $row['productName'];?>
+						</h3>
 
+						<p>
+							<?php echo $row['productCtgry'];?>
+						</p>
 
+						<div class="price">
+							KR <span class="product-price">
+							<?php echo number_format($row['productPrice'],2);?>
+							</span>
+						</div>
+					</div>
 
-			<td>
-          		<img src="<?php echo $row['productIMG']; ?>" width="80">
-			     <br>
+					<!-- QUANTITY -->
+					<div class="quantity-area">
+						<form action="updateCart.php" method="POST">
+						<input type="hidden" name="cartID" value="<?php echo $row['cartID'];?>">
 
-			    <?php echo $row['productName']; ?>
+						<div class="qty-control">
+							<button type="submit" name="action" value="minus">
+							−
+							</button>
 
-			</td>
+							<input type="number" class="qty-input" name="qty" value="<?php echo $row['orderQty'];?>" min="1">
 
+							<button type="submit" name="action" value="plus">
+							+
+							</button>
+					</div>
+						</form>
+					</div>
 
-
-			<td>
-
-			KR <?php echo number_format($row['productPrice'],2); ?>
-
-			</td>
-
-
-
-
-			<td>
-
-			<form action="updateCart.php" method="POST">
-
-
-			<input 
-
-			type="number"
-
-			name="qty"
-
-			value="<?php echo $row['orderQty']; ?>"
-
-			min="1">
-
-
-			<input 
-
-			type="hidden"
-
-			name="cartID"
-
-			value="<?php echo $row['cartID']; ?>">
-
-
-
-			<button type="submit">
-
-			Update
-
-			</button>
-
-
-			</form>
-
-
-			</td>
-
-
-
-			<td>
-
-			KR <?php echo number_format($subtotal,2); ?>
-
-			</td>
-
-
-			</tr>
-
-
-			<?php
-
-			}
-
-			?>
-
-
-			<tr>
-
-			<td colspan="4" align="right">
-
-			<b>Total</b>
-
-			</td>
-
-
-			<td>
-
-			<b>
-
-			KR <?php echo number_format($total,2); ?>
-
-			</b>
-
-			</td>
-
-
-			</tr>
-
-
-			</table>
-
-
-
-			<div class="btn">
-
-			<a href="clearCart.php">
-
-			<i class="fa fa-trash"></i>
-
-			Clear Cart
-
-			</a>
-
-
-
-			<a href="payment.php">
-
-			<i class="fa fa-credit-card"></i>
-
-			Checkout
-
-			</a>
-
-
+					<button type="button" class="delete-btn" onclick="deleteSelected()">
+						<i class="fa fa-trash"></i>
+						Delete
+					</button>
+				</form>
 			</div>
+		</div>
+
+		<?php } ?>
+
+		</div>
 
 
-
-			<?php
-
-			}
-
-			else
-
-			{
-
-			?>
-
-
-			<h3 style="text-align:center">
-
-			Your cart is empty.
-
+		<!-- ORDER SUMMARY -->
+		<div class="checkout-card">
+			<h3>
+			Order Details
 			</h3>
 
+			<div class="summary-row">
+				<span>
+				Price Total
+				</span>
 
-			<?php
+				<b id="priceTotal">
+				KR <?php echo number_format($total,2);?>
+				</b>
+			</div>
 
-			}
+			<div class="summary-row">
+				<span>
+				Discount
+				</span>
 
-			?>
+				<b>
+				KR 0.00
+				</b>
+			</div>
 
+			<hr>
 
+			<div class="summary-total">
+				<span>
+				Total
+				</span>
+
+				<b id="grandTotal">
+				KR <?php echo number_format($total,2);?>
+				</b>
+			</div>
+
+			<form action="payment.php" method="POST" id="checkoutForm">
+				<input type="hidden" name="selectedCart" id="selectedCart">
+				<button type="submit" class="checkout-btn" onclick="return sendCheckout();">
+					CHECKOUT
+				</button>
 			</form>
-        </div>
+
+		</div>
+	</div>
+
+</div>
+
+
 	<div class = "footer">
 		<p>&copy; 2021 ARNGREN. ALL RIGHTS RESERVED</p>
 	</div>
 
+	<script src="../../assets/js/shoppingCart.js"></script>
 	
 </body>
 </html>

@@ -1,12 +1,17 @@
-<?php include ("../config/db_carngren.php");
+<?php 
+    include ("../config/db_carngren.php");
 
 	session_start();
-	//initialize cart if not set or is unset
 	if(!isset($_SESSION['cart'])){
 		$_SESSION['cart'] = array();
 	}
-	//unset qunatity
 	unset($_SESSION['qty_array']);
+
+	if(!isset($_SESSION['userID']))
+	{
+		header("Location: ../auth/login.php");
+		exit();
+	}
 ?>
 
 <!DOCTYPE HTML>
@@ -39,7 +44,7 @@
 						<li>|</li>
 						<li><a class="active" href="../user/productList.php">Products</a></li>
 						<li>|</li>
-						<li><a class="" href="../user/aboutUs.php">About Us</a></li>
+						<li><a href="../user/aboutUs.php">About Us</a></li>
 					</ul>
 				</div>
 				
@@ -67,65 +72,83 @@
 				
 				<nav>
 					<ul>
-						<?php
-						   global $conn;
-						   $sql = "SELECT fullName FROM user WHERE logStatus = 1;";
-						   $result = mysqli_query($conn, $sql);
-						
-						   if ($result -> num_rows > 0)
-						   {
-							  while ($row = $result -> fetch_assoc())
-							  {
-								?>
-									<li><a href = "editprofile.php">My Profile</a></li>
-									<li>|</li>
-									<li><a href = "logoutUser.php">Log Out</a></li>
-									<?php
-							  }
-							}
-							else
-							{
-								?>
-									<li><a href = "../auth/registration.php">Sign Up</a></li>
-									<li>|</li>
-									<li><a href = "../auth/login.php">Log In</a></li>
-								<?php
-							}
-							?>
+
+					<?php if(isset($_SESSION['userID'])) { ?>
+
+					    <li>
+							<span>
+								Welcome,
+								<?php echo $_SESSION['fullName']; ?>
+							</span>
+						</li>
+						<li>
+							<a href="../user/profile.php">
+								My Profile
+							</a>
+						</li>
+						<li>|</li>
+						<li>
+							<a href="../auth/logout.php">
+								Log Out
+							</a>
+						</li>
+
+					<?php } else { ?>
+
+						<li>
+							<a href="../auth/registration.php">
+								Sign Up
+							</a>
+						</li>
+						<li>|</li>
+						<li>
+							<a href="../auth/login.php">
+								Log In
+							</a>
+						</li>
+
+					<?php } ?>
+
 					</ul>
 				</nav>
 			</div>
 		</div>
 		
 		<div class = "dashboard">
-			<div class="bottomnav">
-				<i style="color: white" class="fa fa-chevron-left"></i>
+			<div class="bottomnav-container">
+				<button>
+				    <i style="color: white" class="fa fa-chevron-left"></i>
+				</button>
 
-				<?php
-				$categories = [
-					"Scooter",
-					"Jeep",
-					"Electric Vehicles",
-					"DVD-Player",
-					"Go-Kart",
-					"Hobby & RC",
-					"Binoculars"
-				];
+                <div class="bottomnav" id="categoryNav">
+					<?php
+					$categories = [
+						"Scooter",
+						"Jeep",
+						"Electric Vehicles",
+						"DVD-Player",
+						"Go-Kart",
+						"Hobby & RC",
+						"Binoculars"
+					];
 
-				$currentCategory = isset($_GET['category']) ? $_GET['category'] : "";
+					$currentCategory = isset($_GET['category']) ? $_GET['category'] : "";
 
-				foreach($categories as $category)
-				{
-					$active = ($currentCategory == $category) ? "active" : "";
+					foreach($categories as $category)
+					{
+						$active = ($currentCategory == $category) ? "active" : "";
 
-					echo '
-					<a class="'.$active.'" href="productList.php?category='.urlencode($category).'">
-						'.$category.'
-					</a>';
-				}
+						echo '
+						<a class="'.$active.'" href="productList.php?category='.urlencode($category).'">
+							'.$category.'
+						</a>';
+					}
 
-				?>
-				<i style="color: white" class="fa fa-chevron-right"></i>
+					?>
+				</div>
+				<button>
+				    <i style="color: white" class="fa fa-chevron-right"></i>
+				</button>
 			</div>
 		</div>
 	</div>

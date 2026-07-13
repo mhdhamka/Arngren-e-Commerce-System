@@ -1,25 +1,35 @@
-<?php 
-    include ("../../config/db_carngren.php");
+<?php include ("../../config/db_carngren.php");
 
-	if(isset($_POST['addAccount'])){
-		$fullName = $_POST['fullName'];
-		$email = $_POST['email'];
-		$password = $_POST['password'];
+	if(isset($_POST['insert'])){
+    $orderID = $_POST['orderID'];
+	$userID = $_POST['userID'];
+    $fullname = $_POST['fullname'];
+    $email = $_POST['email'];
+    $orderDate = $_POST['orderDate'];
+    $orderTime = $_POST['orderTime'];
+    $productName = $_POST['productName'];
+    $Qty = $_POST['Qty'];
+	$total = $_POST['total'];
+	$address = $_POST['address'];
+    $state = $_POST['state'];
+	$city = $_POST['city'];
+    $zip = $_POST['zip'];
+		
+        
 
-		addAccount($fullName, $email, $password);
+
+		makePayment($orderID, $userID, $fullname, $email, $orderDate, $orderTime, $productName, $Qty, $total, $address, $state, $city, $zip);
 	}
 ?>
 
 <!DOCTYPE HTML>
 <html lang = "en">
 
-  <!---code for admin page--->
-
 <head>
 	<meta charset = "UTF-8">
 	<title>Arngren | Home</title>
 
-	<link rel="stylesheet" href="../../../assets/css/addAccount.css">
+	<link rel="stylesheet" href="../../../assets/css/record.css">
 	
 	<script src="https://use.fontawesome.com/59805f286a.js"></script>
 
@@ -28,7 +38,7 @@
 </head>
 
 <body>
-	<div class = "container">
+	<div class = "sidebarcontainer">
 		<div class = "sidebar" id = "sidebar">
 			<ul>
 				<li>
@@ -38,7 +48,7 @@
 					</a>
 				</li>
 				<li>
-					<a class = "active" href = "../../admin/account/dashboard.php">
+					<a href = "../../admin/account/dashboard.php">
 						<span class = "icon"><i class = "fa fa-users"></i></span>
 						<span class = "title">Accounts</span>
 					</a>
@@ -50,7 +60,7 @@
 					</a>
 				</li>
 				<li>
-					<a href = "../../admin/transaction/record.php">
+					<a class = "active" href = "../../admin/transaction/record.php">
 						<span class = "icon"><i class = "fa fa-bar-chart"></i></span>
 						<span class = "title">Transaction Record</span>
 					</a>
@@ -87,50 +97,46 @@
 									echo $row["adminUsername"];
 								}
 							}
-						?>							
+						?>
 					</small>
 				</div>
 			</div>
+			<div class="table-container" style = "padding: 20px;">
+				<h1 class="heading">Transaction Records</h1>
+				<table class="table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User ID</th>
+                    <th>Customer Name</th>
+                    <th>Customer Email</th>
+                    <th>Order Date</th>
+                    <th>Order Time</th>
+                    <th>Product Quantity</th>
+                    <th>Product Name</th>
+                    <th>Total Price(excl. 6% Tax)</th>
+                    <th>Customer Address</th>
+                    <th>State/County/District</th>
+                    <th>City</th>
+                    <th>Zip</th>
+                </tr>
+            </thead>
+			<tbody>
+			<?php
+
+			displayRecord();
+
+			?>
+
+			</tbody>
+            <?php
+				displayRecord();
+            ?>
+        </table>
+			</div>
 			
-			<ul>
-				<li>
-					<a href = "../../admin/account/dashboard.php">Accounts</a>
-				</li>
-				<li>
-					<p> >> </p>
-				</li>
-				<li>
-					<a href = "../../admin/account/addAccount.php" style = "font-weight: bold;">Add Account</a>
-				</li>
-			</ul>
-			
-			
-			<form method = "POST">
-				<div class = "form-control">
-					<i class="fa fa-user-circle"></i>
-					<label>Name: </label>
-					<input type = "text" name = "fullName" id = "fullName" required>
-					<small>Invalid</small>
-				</div>
-				<div class = "form-control">
-					<i class="fa fa-envelope"></i>
-					<label>Email: </label>
-					<input type = "email" name = "email" id = "email" required>
-					<small>Invalid</small>
-				</div>
-				<div class = "form-control">
-					<i class="fa fa-lock"></i>
-					<label>Password: </label>
-					<input type = "password" name = "password" id = "password" required>
-					<small>Invalid</small>
-				</div>
-				<div class = "form-control">
-					<input type = "submit" name = "addAccount" value = "Submit"></input>
-				</div>
-			</form>
+		
 		</div>
 	</div>
-
-	<script src="../../../assets/js/addAccount.js"></script>
 </body>
 </html>

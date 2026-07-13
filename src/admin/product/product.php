@@ -1,27 +1,24 @@
 <?php include ("../../config/db_carngren.php");
 
-	if(isset($_POST['addProduct']))
-	{
+	if(isset($_POST['addProduct'])){
 		$productName = $_POST['productName'];
 		$productQty = $_POST['productQty'];
 		$productPrice = $_POST['productPrice'];
-		$productIMG = $_POST['productIMG'];
 
-		addProduct($productName, $productQty, $productPrice, $productIMG);
+		addProduct($productName, $productQty, $productPrice);
 	}
+
 ?>
 
 <!DOCTYPE HTML>
 <html lang = "en">
 
-  <!---code for main page--->
-
+ 
 <head>
 	<meta charset = "UTF-8">
-	<title>Arngren | Add Product</title>
-	<script  type="text/javascript" src="AddProduct.js"></script>
+	<title>Arngren | Home</title>
 
-	<link rel="stylesheet" href="../../../assets/css/addProduct.css">
+	<link rel="stylesheet" href="../../../assets/css/dashProduct.css">
 	
 	<script src="https://use.fontawesome.com/59805f286a.js"></script>
 
@@ -72,12 +69,11 @@
 			</ul>
 		</div>
 		
-        <div class = "main">
+		<div class = "main">
 			<div class = "topbar">
 				<div class = "admin">
 					<i style = "color: #c45b56" class = "fa fa-user-circle"></i>
 					<small>
-
 						<?php
 							global $conn;
 							$sql = "SELECT adminUsername FROM admin WHERE logStatus = 1;";
@@ -91,61 +87,60 @@
 								}
 							}
 						?>	
-
 					</small>
 				</div>
 			</div>
-
-			<ul>
-				<li>
-					<a href = "DashboardProducts.php">Products</a>
-				</li>
-				<li>
-					<p> >> </p>
-				</li>
-				<li>
-					<a href = "AddProduct.php" style = "font-weight: bold;">Add Product</a>
-				</li>
-			</ul>
-			<form method = "POST" enctype="multipart/form-data">
-
-				<div class = "form-control">
-					<i class="fa fa-tag"></i>
-					<label>Name: </label>
-					<input type = "text" name = "productName" required>
-					<small>Invalid</small>
-				</div>
-
-				<div class = "form-control">
-					<i class="fa fa-sort"></i>
-					<label>Quantity: </label>
-					<input type = "number" name = "productQty" required>
-					<small>Invalid</small>
-				</div>
-
-				<div class = "form-control">
-					<i class="fa fa-dollar"></i>
-					<label>Price: </label>
-					<input type = "float" name = "productPrice" required>
-					<small>Invalid</small>
-				</div>
+			
+			<div class = "display-products">
+				<ul>
+					<li>
+						<a href = "../../admin/account/dashboard.php" style = "font-weight: bold;">Products</a>
+					</li>
+				</ul>
 				
-				<div class = "form-control">
-					<i class = "fa fa-file-image-o"></i>
-					<label>Image: </label>
-					<input type = "text" name = "productIMG" placeholder = "Please enter the image path" required>
-					<span style = "color: #c45b56;">*ONLY WEB IMAGES IN .jpg, .jpeg, .png AND .gif ARE ACCEPTED</span>
-					<small>Invalid</small>
-				</div>
+				<table>
+					<thead>
+						<tr>
+							<th scope = "col">Product ID</th>
+							<th scope = "col">Name</th>
+							<th scope = "col">Image</th>
+							<th scope = "col">Quantity</th>
+							<th scope = "col">Price</th>
+							<th scope = "col">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+							global $conn;
+							$sql = "SELECT * FROM product";
+							$result = mysqli_query($conn, $sql);
 
-				<div class = "form-control">
-					<input type = "submit" name = "addProduct" value = "Submit">
+							if ($result -> num_rows > 0)
+							{
+								while ($row = $result -> fetch_assoc())
+								{
+									echo "<tr style = 'text-align: center;'>
+											<td>".$row['productID']."</td>
+											<td>".$row['productName']."</td>
+											<td><img src = '".$row['productIMG']."' style = 'width: 100px;'></td>
+											<td>".$row['productQty']."</td>
+											<td>".$row['productPrice']."</td>
+											<td>
+												<button><a href=\"../../admin/product/updateProduct.php?updateID=$row[productID]\">Update</a></button>
+												<button><a href=\"../../admin/product/deleteProduct.php?deleteID=$row[productID]\">Delete</a></button>
+											</td>
+										 </tr>";
+								}
+							}
+						?>
+					</tbody>
+				</table>
+				
+				<div class = "addbutton">
+					<button><a href = "../../admin/product/addProduct.php">Add Product</button>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
-
-	<script src="../../../assets/js/addProduct.js"></script>
-	
 </body>
 </html>

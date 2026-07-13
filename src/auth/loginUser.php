@@ -1,41 +1,78 @@
 <?php
-	include ("../config/db_carngren.php");
 
-	if (isset($_POST['submit']))
+	include("../config/db_carngren.php");
+	session_start();
+
+	if(isset($_POST['submit']))
 	{
-		global $conn;
-		$loginid = $_POST['loginid'];
+		$loginid = mysqli_real_escape_string($conn,$_POST['loginid']);
 		$password = $_POST['password'];
 
-		$sql = "UPDATE user SET logStatus = 1 WHERE email = '$loginid' AND password = '$password'";
-		$result = mysqli_query($conn, $sql);
-		
-		$sql = "SELECT * FROM user WHERE email = '$loginid' AND password = '$password'";
-		$result = mysqli_query($conn, $sql);
+		$sql="
+		SELECT *
+		FROM user
+		WHERE email='$loginid'
+		";
 
-		if ($result !== false && $result->num_rows > 0)
+		$result=mysqli_query($conn,$sql);
+
+		if(mysqli_num_rows($result)==1)
 		{
-			while ($row = $result -> fetch_assoc())
+			$row=mysqli_fetch_assoc($result);
+			// Verify hashed password
+			if(password_verify($password,$row['password']))
 			{
-				session_start();
-				echo "<script>alert('You have successfully Log In');</script>";
-				//direct to registed member homepage
-				header("Location: index.php");
+				$_SESSION['userID']=$row['userID'];
+				$_SESSION['fullName']=$row['fullName'];
+				$_SESSION['email']=$row['email'];
+				$_SESSION['logStatus']=1;
+
+				mysqli_query($conn,"
+					UPDATE user
+					SET logStatus=1
+					WHERE userID='{$row['userID']}'
+				");
+
+				echo "
+				<script>
+				alert('You have successfully logged in');
+				</script>
+				";
+
+				header("Location: ../auth/index.php");
+				exit();
+			}
+			else
+			{
+				echo "
+				<script>
+				alert('Invalid Password');
+				</script>
+				";
 			}
 		}
 		else
 		{
-			echo "<script>alert('Invalid Login ID or Password');</script>";
+			echo "
+			<script>
+			alert('Account does not exist');
+			</script>
+			";
+
 		}
+
 	}
-	
-	if (isset($_POST['guest']))
+
+
+	if(isset($_POST['guest']))
 	{
-		global $conn;
-		session_start();
-		header("Location: index.php");
+		header("Location:../auth/index.php");
+		exit();
 	}
+
 ?>
+
+
 <!DOCTYPE html>
 <html>
 <head>

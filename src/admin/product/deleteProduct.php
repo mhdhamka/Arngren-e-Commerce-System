@@ -1,5 +1,5 @@
 <?php
-	include("dbConnection_arngren.php");
+	include ("../../config/db_carngren.php");
 
 	$deleteID = $_GET['deleteID'];
 	global $conn;

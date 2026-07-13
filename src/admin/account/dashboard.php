@@ -1,27 +1,23 @@
 <?php include ("../../config/db_carngren.php");
 
-	if(isset($_POST['addProduct']))
-	{
-		$productName = $_POST['productName'];
-		$productQty = $_POST['productQty'];
-		$productPrice = $_POST['productPrice'];
-		$productIMG = $_POST['productIMG'];
+	if(isset($_POST['addAccount'])){
+		$fullName = $_POST['fullName'];
+		$email = $_POST['email'];
+		$password = $_POST['password'];
 
-		addProduct($productName, $productQty, $productPrice, $productIMG);
+		insert_records($fullName, $email, $password);
 	}
+
 ?>
 
 <!DOCTYPE HTML>
 <html lang = "en">
 
-  <!---code for main page--->
-
 <head>
 	<meta charset = "UTF-8">
-	<title>Arngren | Add Product</title>
-	<script  type="text/javascript" src="AddProduct.js"></script>
+	<title>Arngren | Home</title>
 
-	<link rel="stylesheet" href="../../../assets/css/addProduct.css">
+	<link rel="stylesheet" href="../../../assets/css/dashboard.css">
 	
 	<script src="https://use.fontawesome.com/59805f286a.js"></script>
 
@@ -40,13 +36,13 @@
 					</a>
 				</li>
 				<li>
-					<a href = "../../admin/account/dashboard.php">
+					<a class = "active" href = "../../admin/account/dashboard.php">
 						<span class = "icon"><i class = "fa fa-users"></i></span>
 						<span class = "title">Accounts</span>
 					</a>
 				</li>
 				<li>
-					<a class = "active" href = "../../admin/product/product.php">
+					<a href = "../../admin/product/product.php">
 						<span class = "icon"><i class = "fa fa-shopping-cart"></i></span>
 						<span class = "title">Products</span>
 					</a>
@@ -72,12 +68,11 @@
 			</ul>
 		</div>
 		
-        <div class = "main">
+		<div class = "main">
 			<div class = "topbar">
 				<div class = "admin">
 					<i style = "color: #c45b56" class = "fa fa-user-circle"></i>
 					<small>
-
 						<?php
 							global $conn;
 							$sql = "SELECT adminUsername FROM admin WHERE logStatus = 1;";
@@ -91,61 +86,58 @@
 								}
 							}
 						?>	
-
 					</small>
 				</div>
 			</div>
-
-			<ul>
-				<li>
-					<a href = "DashboardProducts.php">Products</a>
-				</li>
-				<li>
-					<p> >> </p>
-				</li>
-				<li>
-					<a href = "AddProduct.php" style = "font-weight: bold;">Add Product</a>
-				</li>
-			</ul>
-			<form method = "POST" enctype="multipart/form-data">
-
-				<div class = "form-control">
-					<i class="fa fa-tag"></i>
-					<label>Name: </label>
-					<input type = "text" name = "productName" required>
-					<small>Invalid</small>
-				</div>
-
-				<div class = "form-control">
-					<i class="fa fa-sort"></i>
-					<label>Quantity: </label>
-					<input type = "number" name = "productQty" required>
-					<small>Invalid</small>
-				</div>
-
-				<div class = "form-control">
-					<i class="fa fa-dollar"></i>
-					<label>Price: </label>
-					<input type = "float" name = "productPrice" required>
-					<small>Invalid</small>
-				</div>
+						
+			<div class = "display-accounts">
+				<ul>
+					<li>
+						<a href = "../../admin/account/dashboard.php" style = "font-weight: bold;">Accounts</a>
+					</li>
+				</ul>
 				
-				<div class = "form-control">
-					<i class = "fa fa-file-image-o"></i>
-					<label>Image: </label>
-					<input type = "text" name = "productIMG" placeholder = "Please enter the image path" required>
-					<span style = "color: #c45b56;">*ONLY WEB IMAGES IN .jpg, .jpeg, .png AND .gif ARE ACCEPTED</span>
-					<small>Invalid</small>
-				</div>
+				<table>
+					<thead>
+						<tr>
+							<th scope = "col">User ID</th>
+							<th scope = "col">Username</th>
+							<th scope = "col">Email</th>
+							<th scope = "col">Password</th>
+							<th scope = "col">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+							global $conn;
+							$sql = "SELECT * FROM user";
+							$result = mysqli_query($conn, $sql);
 
-				<div class = "form-control">
-					<input type = "submit" name = "addProduct" value = "Submit">
+							if ($result -> num_rows > 0)
+							{
+								while ($row = $result -> fetch_assoc())
+								{
+									echo "<tr style = 'text-align: center;'>
+											<td>".$row['userID']."</td>
+											<td>".$row['fullName']."</td>
+											<td>".$row['email']."</td>
+											<td>".$row['password']."</td>
+											<td>
+												<button><a href=\"../../admin/account/updateAccount.php?updateID=$row[userID]\">Update</a></button>
+												<button><a href=\"../../admin/account/deleteAccount.php?deleteID=$row[userID]\">Delete</a></button>
+											</td>
+										 </tr>";
+								}
+							}
+						?>
+					</tbody>
+				</table>
+				
+				<div class = "addbutton">
+					<button><a href = "../../admin/account/addAccount.php">Add Account</button>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
-
-	<script src="../../../assets/js/addProduct.js"></script>
-	
 </body>
 </html>

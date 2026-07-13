@@ -88,16 +88,25 @@
 	function addAccount($fullName, $email, $password)
 	{
 		global $conn;
-		$sql = "INSERT INTO user(fullName, email, password)
-				VALUES('$fullName', '$email', '$password')";
 
-		if (mysqli_query($conn, $sql))
-		{   
-			$success = false;	    
+		$sql = "
+		INSERT INTO user(fullName,email,password,logStatus)
+		VALUES(
+			'$fullName',
+			'$email',
+			'$password',
+			0
+		)
+		";
+
+		if(mysqli_query($conn,$sql))
+		{
+			return true;
 		}
 		else
 		{
-			echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+			echo "Error: ".mysqli_error($conn);
+			return false;
 		}
 	}
 	
@@ -127,34 +136,6 @@
 		}
 	}
 	
-	function displayRecord()
-	{
-		global $conn;
-		$sql = "SELECT * FROM `transaction`";
-		$result = mysqli_query($conn, $sql);
-
-		if ($result !== false && $result->num_rows > 0)
-		{
-			while ($row = $result -> fetch_assoc())
-			{
-				echo "<tr>
-						<td>".$row['orderID']."</td>
-						<td>".$row['userID']."</td>
-						<td>".$row['fullname']."</td>
-						<td>".$row['email']."</td>
-						<td>".$row['orderDate']."</td>
-						<td>".$row['orderTime']."</td>
-						<td>".$row['Qty']."</td>
-						<td>".$row['productName']."</td>
-						<td>".$row['total']."</td>
-						<td>".$row['address']."</td>
-						<td>".$row['state']."</td>
-						<td>".$row['city']."</td>
-						<td>".$row['zip']."</td>
-					 </tr>";
-			}
-		}
-	}
 	
 	/*function makePayment($total, $address, $state, $city, $zip){
 		global $conn;
@@ -216,4 +197,156 @@
 		echo "Error: " . $sql . "<br>" . $conn->error;
 	  }
 	}*/
+
+	function displayRecord()
+	{
+		global $conn;
+
+		$sql = "
+
+		SELECT
+
+		transaction.orderID,
+		transaction.userID,
+
+		user.fullName,
+		user.email,
+
+		transaction.orderDate,
+		transaction.orderTime,
+
+		cart.orderQty,
+		product.productName,
+
+		transaction.subTotal,
+
+		transaction.address,
+		transaction.state,
+		transaction.city,
+		transaction.zip
+
+
+		FROM transaction
+
+
+		INNER JOIN user
+
+		ON transaction.userID = user.userID
+
+
+		INNER JOIN cart
+
+		ON transaction.userID = cart.userID
+
+
+		INNER JOIN product
+
+		ON cart.productID = product.productID
+
+		";
+
+
+		$result = mysqli_query($conn,$sql);
+
+
+		if(mysqli_num_rows($result)>0)
+		{
+
+			while($row=mysqli_fetch_assoc($result))
+			{
+
+	?>
+
+	<tr>
+
+	<td data-label="Order ID">
+	<?php echo $row['orderID']; ?>
+	</td>
+
+
+	<td data-label="User ID">
+	<?php echo $row['userID']; ?>
+	</td>
+
+
+	<td data-label="Customer Name">
+	<?php echo $row['fullName']; ?>
+	</td>
+
+
+	<td data-label="Customer Email">
+	<?php echo $row['email']; ?>
+	</td>
+
+
+	<td data-label="Order Date">
+	<?php echo $row['orderDate']; ?>
+	</td>
+
+
+	<td data-label="Order Time">
+	<?php echo $row['orderTime']; ?>
+	</td>
+
+
+	<td data-label="Product Quantity">
+	<?php echo $row['orderQty']; ?>
+	</td>
+
+
+	<td data-label="Product Name">
+	<?php echo $row['productName']; ?>
+	</td>
+
+
+	<td data-label="Total Price">
+	KR <?php echo number_format($row['subTotal'],2); ?>
+	</td>
+
+
+	<td data-label="Customer Address">
+	<?php echo $row['address']; ?>
+	</td>
+
+
+	<td data-label="State">
+	<?php echo $row['state']; ?>
+	</td>
+
+
+	<td data-label="City">
+	<?php echo $row['city']; ?>
+	</td>
+
+
+	<td data-label="Zip">
+	<?php echo $row['zip']; ?>
+	</td>
+
+
+	</tr>
+
+
+	<?php
+
+			}
+
+		}
+
+		else
+		{
+
+	?>
+
+	<tr>
+	<td colspan="13" style="text-align:center;">
+	No Transaction Records Found
+	</td>
+	</tr>
+
+	<?php
+
+		}
+
+	}
 ?>

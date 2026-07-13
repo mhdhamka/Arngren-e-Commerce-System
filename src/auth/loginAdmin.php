@@ -1,35 +1,45 @@
 <?php
-	include ("../config/db_carngren.php");
+include("../config/db_carngren.php");
+session_start();
 
-	if (isset($_POST['submit']))
-	{
-		global $conn;
-		$loginid = $_POST['loginid'];
-		$password = $_POST['password'];
+if(isset($_POST['submit']))
+{
+    $loginid = mysqli_real_escape_string($conn,$_POST['loginid']);
+    $password = mysqli_real_escape_string($conn,$_POST['password']);
 
-		$sql = "UPDATE admin SET logStatus = 1 WHERE adminUsername = '$loginid' AND adminPassword = '$password'";
-		$result = mysqli_query($conn, $sql);
+    $sql = "SELECT * FROM admin
+            WHERE adminUsername='$loginid'
+            AND adminPassword='$password'";
 
-		$sql = "SELECT * FROM admin WHERE adminUsername = '$loginid' AND adminPassword = '$password'";
-		$result = mysqli_query($conn, $sql);
+    $result = mysqli_query($conn,$sql);
 
-		if ($result !== false && $result->num_rows > 0)
-		{
-			while ($row = $result -> fetch_assoc())
-			{
-				session_start();
-				$sql = "UPDATE admin SET logStatus = 1 WHERE adminUsername = '$loginid' AND adminPassword = '$password'";
-				echo "<script>alert('You have successfully Log In');</script>";
-				//direct to registed member homepage
-				header("Location: DashboardAccounts.php");
-			}
-		}
-		else
-		{
-			echo "<script>alert('Invalid Login ID or Password');</script>";
-		}
-	}
+    if(mysqli_num_rows($result)==1)
+    {
+        $row = mysqli_fetch_assoc($result);
+
+        // Save session
+        $_SESSION['adminID'] = $row['adminID'];
+        $_SESSION['adminUsername'] = $row['adminUsername'];
+        $_SESSION['logStatus'] = 1;
+
+        // Only this admin becomes logged in
+        mysqli_query($conn,"
+            UPDATE admin
+            SET logStatus=1
+            WHERE adminID='".$row['adminID']."'
+        ");
+
+        header("Location: ../admin/account/dashboard.php");
+        exit();
+    }
+    else
+    {
+        echo "<script>alert('Invalid Login ID or Password');</script>";
+    }
+}
 ?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,7 +70,7 @@
 			<div class="formheader">
 				<h3><span style = "color: #c45b56;">Admin</span> Log In</h3>
 			</div>
-			<form class="form" method="POST" action="loginAdmin.php">
+			<form class="form" method="POST" action="../auth/loginAdmin.php">
 				<br>
 				<input type="" placeholder="Username" id="loginid" name="loginid" required>
 				<br>

@@ -1,0 +1,268 @@
+ /***** About US CSS *****/
+
+	*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		h1{
+			position: absolute;
+			left: 300px;
+			top: 15px;
+			font-size: 55px;
+			color: white;
+			font-family: Arial black;
+		}
+
+		.centernav{
+			position: absolute;
+			left: 300px;
+			top: 25px;
+			font-size: 14.5px;
+			color: white;
+			font-family: Helvetica;
+		}
+
+		.centernav ul li {
+			display: inline-block;
+			list-style-type: none;
+		}
+
+		.centernav a.active {
+		  color: #ecd846;
+		}
+
+		.centernav a:hover:not(.active) {
+		  color: #ecd846;
+		}
+
+		.topnav{
+			display: flex;
+			align-items: top;
+			padding: 10px;
+		}
+
+		.topnav nav{
+			flex: 1;
+			position: absolute;
+			right: 150px;
+			text-align: right;
+		}
+
+		.topnav nav ul{
+			display: inline-block;
+			list-style-type: none;
+		}
+
+		.topnav li{
+			color: white;
+		}
+
+		.topnav nav ul li{
+			display: inline-block;
+			margin-right: 20px;
+		}
+
+		.topnav a{
+			text-decoration: none;
+			font-family: Helvetica;
+			color: white;
+		}
+
+		.headercontainer{
+			max-width: 1300px;
+			margin: auto;
+			padding-left: 25px;
+			padding-right: 25px;
+		}
+
+		.header{
+			/*background-image: linear-gradient(#7a3835, #c45b56, #db7772);*/
+			background: #c45b56;
+		}
+
+
+		.footer{
+			text-align: center;
+			font-family: Helvetica;
+			color: lightgrey;
+			font-size: 12px;
+			border-top: 2px solid lightgrey;
+			margin: 40px;
+			padding: 20px;
+
+		}
+
+		
+
+		.search{
+			height: 50px;
+			width: 850px;
+			padding: 10px;
+			margin-left: 200;
+			margin-top: 30px;
+			border: none;
+			border-radius: 25px;
+			outline: none;
+		}
+
+		.searchbutton{
+			position: absolute;
+			right: 400px;
+			top: 90px;
+			bottom: 50px;
+			width: 100px;
+			height: 40.5px;
+			border: none;
+			outline: none;
+			padding: 10px;
+			border-radius: 25px;
+			background: #ecd846;
+			font-size: 15px;
+			text-align: center;
+			font-family: Helvetica;
+			color: #c45b56;
+		}
+			
+		.searchbar input {
+			position: absolute;
+			right: 394px;
+			top: 55px;
+			bottom: 50px;
+			border: black;
+			font-size: 17px;
+		}
+
+		.cart{
+			position: absolute;
+			right: 300px;
+			top: 95px;
+		}
+
+		.message{
+			position: absolute;
+			right: 250px;
+			top: 97px;
+		}
+
+		.info{
+			position: absolute;
+			right:  200px;
+			top: 97px;
+		}
+			
+		.bottomnav-container {
+
+			width:100%;
+			display:flex;
+			align-items:center;
+			background:#c45b56;
+		}
+
+		.bottomnav {
+
+			display:flex;
+			overflow:hidden;
+			flex:1;
+		}
+
+		.bottomnav a {
+
+			flex:1;
+			padding:12px;
+			text-align:center;
+			color:white;
+			text-decoration:none;
+			font-family:Helvetica;
+			white-space:nowrap;
+		}
+
+		.bottomnav a.active {
+			background:#ecd846;
+			color:#c45b56;
+		}
+
+		.bottomnav-container button {
+			background:#c45b56;
+			color:white;
+			border:none;
+			padding:12px 20px;
+			cursor:pointer;
+			font-size:20px;
+		}
+
+        .button {
+			background-color: #4CAF50; /* Green */
+			border: none;
+			border-radius: 10px;
+			color: white;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+		}
+
+		.content{
+			background-color: rgba(245,245,245,255);
+			padding: 20px;
+		}
+
+		.container{
+			padding: 10px;
+			background-color: white;
+			width: 60%;
+			margin-left: auto;
+			margin-right:auto;
+			padding: 20px;
+			border: 3px solid rgb(237,237,237);
+			font-family: Helvetica;
+		}
+
+		.header2 h2 {
+			font-family: Helvetica;
+			font-size: 25px;
+		}
+
+		.header2 p{
+			font-size: 14px;
+			color: rgb(157,157,157);
+			padding: 3px;
+		}
+
+		.form{
+			font-family: Helvetica;
+		}
+
+		.innerform{
+			padding: 15px;
+		}
+
+		.innerform label{
+				display: inline ;
+				padding-left: 20px;
+				font-size: 14px;
+				color: rgb(157,157,157);
+
+		}
+
+		.innerform input{
+				width: 10cm;
+				border-radius: 10px;
+				display: inline;
+				font-size: 12px;
+				padding: 10px ;
+				position: absolute;
+				right: 625px;
+		}
+
+		.formfooter input{
+			width: 1.6cm;
+			height: 0.9cm;
+			background-color: rgb(238,77,45);
+			color: white;
+			border: 0px;
+			margin-left: 180px;
+			margin-top: 20px;
+		}

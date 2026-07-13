@@ -45,21 +45,29 @@
 			$password2Error = "*Confirm Password does not match!*";
 		}
 
-		if (empty($fullNameError)&&empty($lnameError)&&empty($emailError)&&empty($phoneError)&&empty($passwordError)&&empty($password2Error)) {
-				
-				
-				/*if($conn->connect_error){
-				echo "$conn->connect_error";
-				die("Connection Failed : ". $conn->connect_error);
-				} else {*/
-				addAccount($fullName, $email, $password);
-				$container = "hidden";
-				$after = "visible";
-				header("location: loginUser.php");
-		}
+		if(empty($fullNameError)
+			&& empty($lnameError)
+			&& empty($emailError)
+			&& empty($phoneError)
+			&& empty($passwordError)
+			&& empty($password2Error))
+			{
+				// Hash password before storing
+				$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+				addAccount($fullName, $email, $hashedPassword);
+
+				echo "<script>
+						alert('Registration Successful');
+					</script>";
+
+				header("location: ../auth/loginUser.php");
+				exit();
+			}
 		}
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -110,13 +118,13 @@
 				</div>
 				</div>
 				<div class="innerform">
-				<input type="text" placeholder="Password" id="password" name="password" required>
+				<input type="password" placeholder="Password" id="password" name="password" required>
 				<div class="errorblock">
 				<small class="error"> <?php echo $passwordError;?></small>
 				</div>
 				</div>
 				<div class="innerform">
-				<input type="text" placeholder="Confirm Password" id="password2" name="password2" required>
+				<input type="password" placeholder="Confirm Password" id="password2" name="password2" required>
 				<div class="errorblock">
 				<small class="error"> <?php echo $password2Error;?></small>
 				</div>

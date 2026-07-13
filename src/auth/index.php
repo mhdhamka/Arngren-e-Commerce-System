@@ -1,4 +1,5 @@
 <?php 
+    session_start();
     include ("../config/db_carngren.php");
 
 	if(isset($_POST['submit'])){
@@ -62,38 +63,50 @@
 				
 				<nav>
 					<ul>
-						<?php
-						   global $conn;
-						   $sql = "SELECT fullName FROM user WHERE logStatus = 1;";
-						   $result = mysqli_query($conn, $sql);
-						
-						   if ($result -> num_rows > 0)
-						   {
-							  while ($row = $result -> fetch_assoc())
-							  {
-								?>
-									<li><a href = "../user/profile.php">My Profile</a></li>
-									<li>|</li>
-									<li><a href = "logoutUser.php">Log Out</a></li>
-									<?php
-							  }
-							}
-							else
-							{
-								?>
-									<li><a href = "../auth/registration.php">Sign Up</a></li>
-									<li>|</li>
-									<li><a href = "../auth/login.php">Log In</a></li>
-								<?php
-							}
-							?>
+
+					<?php if(isset($_SESSION['userID'])) { ?>
+
+					    <li>
+							<span>
+								Welcome,
+								<?php echo $_SESSION['fullName']; ?>
+							</span>
+						</li>
+						<li>
+							<a href="../user/profile.php">
+								My Profile
+							</a>
+						</li>
+						<li>|</li>
+						<li>
+							<a href="../auth/logout.php">
+								Log Out
+							</a>
+						</li>
+
+					<?php } else { ?>
+
+						<li>
+							<a href="../auth/registration.php">
+								Sign Up
+							</a>
+						</li>
+						<li>|</li>
+						<li>
+							<a href="../auth/login.php">
+								Log In
+							</a>
+						</li>
+
+					<?php } ?>
+
 					</ul>
 				</nav>
 			</div>
 		</div>
 		
 		<div class = "dashboard">
-                <div class="bottomnav-container">
+            <div class="bottomnav-container">
 				<button id="leftBtn">
 				    <i class="fa fa-chevron-left"></i>
 				</button>
@@ -185,7 +198,7 @@
 	
 	    <!---Featured Products--->
 		<div class = "featured">
-			<h2 class="section-title">Featured Articles</h2>
+			<h2 class="section-title">Featured Products</h2>
 			<div class = "featuredrow">
 				<!---1st Featured Product--->
 				<div class = "featuredcolumn"> 
