@@ -1,267 +1,340 @@
 <?php
-
 session_start();
+include("../../src/config/db_carngren.php");
+include("../../src/config/cartFunctions.php");
 
-include("../config/db_carngren.php");
-
-
-if(!isset($_SESSION['userID']) || $_SESSION['logStatus'] != 1)
-{
-    header("Location: ../user/shoppingCart.php");
+// Check if user is logged in
+if (!isset($_SESSION['userID'])) {
+    header("Location: ../auth/login.php");
     exit();
 }
 
 $userID = $_SESSION['userID'];
+$message = "";
 
+// Handle cart actions
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['action'])) {
+        $action = $_POST['action'];
+        
+        if ($action == 'remove' && isset($_POST['cartID'])) {
+            $result = removeFromCart($_POST['cartID'], $userID);
+            $message = $result['message'];
+        } elseif ($action == 'update' && isset($_POST['cartID']) && isset($_POST['quantity'])) {
+            $result = updateCartQuantity($_POST['cartID'], $userID, $_POST['quantity']);
+            $message = $result['message'];
+        } elseif ($action == 'clear') {
+            $result = clearCart($userID);
+            $message = $result['message'];
+        }
+    }
+}
+
+$cartResult = getCartItems($userID);
+$cartTotal = getCartTotal($userID);
+$cartCount = getCartCount($userID);
 ?>
 
 <!DOCTYPE HTML>
-<html lang = "en">
-
+<html lang="en">
 <head>
-	<meta charset = "UTF-8">
-	<title>Arngren | Shopping Cart</title>
-
-	<!---external CSS--->
-	<link rel = "stylesheet" href = "style.css">
-
-	<link rel="stylesheet" href="../../assets/css/shoppingCart.css">
-
-	<script src="https://use.fontawesome.com/59805f286a.js"></script>
-	<link rel="icon" type="image/x-icon" href="../../assets/images/logo.PNG">
-	
+    <meta charset="UTF-8">
+    <title>Arngren | Shopping Cart</title>
+    <link rel="stylesheet" href="../../assets/css/index.css">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/logo.png">
+    <style>
+        .cart-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        
+        .cart-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .cart-empty h2 {
+            color: #c45b56;
+            margin-bottom: 20px;
+        }
+        
+        .cart-empty a {
+            background: #c45b56;
+            color: white;
+            padding: 10px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .cart-table th {
+            background: #c45b56;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .cart-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-table tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .product-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        
+        .qty-input {
+            width: 70px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        .btn-remove {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .btn-remove:hover {
+            background: #c82333;
+        }
+        
+        .cart-summary {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 400px;
+            margin-left: auto;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #c45b56;
+        }
+        
+        .btn-checkout {
+            width: 100%;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        
+        .btn-checkout:hover {
+            background: #218838;
+        }
+        
+        .btn-continue-shopping {
+            width: 100%;
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+        }
+        
+        .btn-continue-shopping:hover {
+            background: #5a6268;
+        }
+        
+        .message {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
 </head>
-
 <body>
-	<div class = "header">
-		<div class = "headercontainer">
-			<div class = "topnav">
-			<h1>www.ARNGREN.net</h1>
-				<div class = "centernav">
-					<ul>
-						<li><a href="../user/productList.php"><i class = "fa fa-arrow-left"></i> Continue Browsing</a></li>
-					</ul>
-				</div>
-				
-				<div class = "logo">
-					<a class = "active" href = "../auth/index.php">
-					    <img src = "../../assets/images/logo.PNG" width = "125px">
+    <div class="header">
+        <div class="headercontainer">
+            <div class="topnav">
+                <h1>www.ARNGREN.net</h1>
+                <div class="centernav">
+                    <ul>
+                        <li><a href="../auth/index.php">Home</a></li>
+                        <li>|</li>
+                        <li><a href="productList.php">Products</a></li>
+                        <li>|</li>
+                        <li><a href="aboutUs.php">About Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="logo">
+                    <a href="../auth/index.php">
+                        <img src="../../assets/images/logo.PNG" width="125px">
                     </a>
-				</div>
-				
-				<div class = "title">
-					<h2>Shopping Cart <i class = "fa fa-shopping-cart"></i></h2>
-				</div>
-				
-				<nav>
-					<ul>
-
-					<?php if(isset($_SESSION['userID'])) { ?>
-
-					    <li>
-							<span>
-								Welcome,
-								<?php echo $_SESSION['fullName']; ?>
-							</span>
-						</li>
-						<li>
-							<a href="../user/profile.php">
-								My Profile
-							</a>
-						</li>
-						<li>|</li>
-						<li>
-							<a href="../auth/logout.php">
-								Log Out
-							</a>
-						</li>
-
-					<?php } else { ?>
-
-						<li>
-							<a href="../auth/registration.php">
-								Sign Up
-							</a>
-						</li>
-						<li>|</li>
-						<li>
-							<a href="../auth/login.php">
-								Log In
-							</a>
-						</li>
-
-					<?php } ?>
-
-					</ul>
-				</nav>
-			</div>
-		</div>
-	</div>
-
-	<div class="content">
-		<div class="cart-container">
-			<div class="cart-products">
-				<form id="deleteForm" action="clearCart.php" method="POST">
-					<div class="select-card">
-						<input type="checkbox" id="selectAll">
-						Select All Products
-					</div>
-
-					<?php
-
-					$total = 0;
-					$sql = "
-
-					SELECT
-
-					cart.cartID,
-					cart.orderQty,
-
-					product.productName,
-					product.productPrice,
-					product.productIMG,
-					product.productCtgry
-
-					FROM cart
-
-					INNER JOIN product
-
-					ON cart.productID = product.productID
-
-					WHERE cart.userID='$userID'
-
-					";
-
-
-					$result=mysqli_query($conn,$sql);
-					while($row=mysqli_fetch_assoc($result)){
-					$subtotal = $row['orderQty'] * $row['productPrice'];
-					$total += $subtotal;
-
-					?>
-
-					<div class="shop-card">
-							<!-- STORE HEADER -->
-							<div class="shop-header">
-								
-							</div>
-
-					<!-- PRODUCT BODY -->
-
-					<div class="product-box" data-price="<?php echo $row['productPrice']; ?>">
-						<input 
-							type="checkbox"
-							class="product-check"
-							name="cartID[]"
-							value="<?php echo $row['cartID']; ?>"
-							data-price="<?php echo $row['productPrice']; ?>">
-						<img src="<?php echo $row['productIMG'];?>" class="product-image">
-
-						<div class="product-details">
-
-						<h3>
-							<?php echo $row['productName'];?>
-						</h3>
-
-						<p>
-							<?php echo $row['productCtgry'];?>
-						</p>
-
-						<div class="price">
-							KR <span class="product-price">
-							<?php echo number_format($row['productPrice'],2);?>
-							</span>
-						</div>
-					</div>
-
-					<!-- QUANTITY -->
-					<div class="quantity-area">
-						<form action="updateCart.php" method="POST">
-						<input type="hidden" name="cartID" value="<?php echo $row['cartID'];?>">
-
-						<div class="qty-control">
-							<button type="submit" name="action" value="minus">
-							−
-							</button>
-
-							<input type="number" class="qty-input" name="qty" value="<?php echo $row['orderQty'];?>" min="1">
-
-							<button type="submit" name="action" value="plus">
-							+
-							</button>
-					</div>
-						</form>
-					</div>
-
-					<button type="button" class="delete-btn" onclick="deleteSelected()">
-						<i class="fa fa-trash"></i>
-						Delete
-					</button>
-				</form>
-			</div>
-		</div>
-
-		<?php } ?>
-
-		</div>
-
-
-		<!-- ORDER SUMMARY -->
-		<div class="checkout-card">
-			<h3>
-			Order Details
-			</h3>
-
-			<div class="summary-row">
-				<span>
-				Price Total
-				</span>
-
-				<b id="priceTotal">
-				KR <?php echo number_format($total,2);?>
-				</b>
-			</div>
-
-			<div class="summary-row">
-				<span>
-				Discount
-				</span>
-
-				<b>
-				KR 0.00
-				</b>
-			</div>
-
-			<hr>
-
-			<div class="summary-total">
-				<span>
-				Total
-				</span>
-
-				<b id="grandTotal">
-				KR <?php echo number_format($total,2);?>
-				</b>
-			</div>
-
-			<form action="payment.php" method="POST" id="checkoutForm">
-				<input type="hidden" name="selectedCart" id="selectedCart">
-				<button type="submit" class="checkout-btn" onclick="return sendCheckout();">
-					CHECKOUT
-				</button>
-			</form>
-
-		</div>
-	</div>
-
-</div>
-
-
-	<div class = "footer">
-		<p>&copy; 2021 ARNGREN. ALL RIGHTS RESERVED</p>
-	</div>
-
-	<script src="../../assets/js/shoppingCart.js"></script>
-	
+                </div>
+                
+                <div class="searchbar">
+                    <input type="text" class="search" placeholder="Search for products..">
+                    <div class="searchbutton">
+                        <p>Search</p>
+                    </div>
+                    <div class="cart">
+                        <a href="shoppingCart.php"><i style="color: white" class="fa fa-shopping-cart fa-2x"></i></a>
+                    </div>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li>
+                            <span>Welcome, <?php echo $_SESSION['fullName']; ?></span>
+                        </li>
+                        <li>
+                            <a href="profile.php">My Profile</a>
+                        </li>
+                        <li>|</li>
+                        <li>
+                            <a href="../auth/logout.php">Log Out</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    
+    <div class="cart-container">
+        <h1>Shopping Cart</h1>
+        
+        <?php if ($message): ?>
+            <div class="message success"><?php echo htmlspecialchars($message); ?></div>
+        <?php endif; ?>
+        
+        <?php if ($cartCount == 0): ?>
+            <div class="cart-empty">
+                <h2>Your cart is empty</h2>
+                <p>Add some products to get started!</p>
+                <a href="productList.php">Continue Shopping</a>
+            </div>
+        <?php else: ?>
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($item = $cartResult->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($item['productName']); ?></td>
+                            <td>
+                                <img src="<?php echo htmlspecialchars($item['productIMG']); ?>" class="product-img" alt="Product">
+                            </td>
+                            <td>$<?php echo number_format($item['productPrice'], 2); ?></td>
+                            <td>
+                                <form method="POST" style="display: inline;">
+                                    <input type="hidden" name="action" value="update">
+                                    <input type="hidden" name="cartID" value="<?php echo $item['cartID']; ?>">
+                                    <input type="number" name="quantity" value="<?php echo $item['orderQty']; ?>" class="qty-input" min="1" onchange="this.form.submit();">
+                                </form>
+                            </td>
+                            <td>$<?php echo number_format($item['subtotal'], 2); ?></td>
+                            <td>
+                                <form method="POST" style="display: inline;">
+                                    <input type="hidden" name="action" value="remove">
+                                    <input type="hidden" name="cartID" value="<?php echo $item['cartID']; ?>">
+                                    <button type="submit" class="btn-remove">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+            
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span>$<?php echo number_format($cartTotal, 2); ?></span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping:</span>
+                    <span>$0.00 (Free)</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax (10%):</span>
+                    <span>$<?php echo number_format($cartTotal * 0.10, 2); ?></span>
+                </div>
+                <div class="summary-total">
+                    <span>Total:</span>
+                    <span>$<?php echo number_format($cartTotal * 1.10, 2); ?></span>
+                </div>
+                
+                <a href="checkout.php" class="btn-checkout">Proceed to Checkout</a>
+                <a href="productList.php" class="btn-continue-shopping">Continue Shopping</a>
+                
+                <form method="POST" style="margin-top: 10px;">
+                    <input type="hidden" name="action" value="clear">
+                    <button type="submit" class="btn-continue-shopping" style="background: #dc3545; cursor: pointer;" onclick="return confirm('Clear entire cart?');">Clear Cart</button>
+                </form>
+            </div>
+        <?php endif; ?>
+    </div>
+    
+    <div class="footer">
+        <p>&copy; 2024 ARNGREN. ALL RIGHTS RESERVED</p>
+    </div>
 </body>
 </html>
