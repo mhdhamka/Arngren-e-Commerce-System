@@ -78,7 +78,7 @@
 <head>
 	<title>Arngren | Log In</title>
 	<link rel="icon" type="image/x-icon" href="../../assets/images/logo.PNG">
-	<link rel="stylesheet" href="../../assets/css/loginUser.css">
+	<link rel="stylesheet" href="../../assets/css/login.css">
 </head>
 <body>
 	<div class="header">
@@ -86,7 +86,7 @@
 			<img src = "../../assets/images/logo.PNG" alt="logo" >
 		</div>
 		<div class="logotext">
-			<h1>www.Arngren.net</h1>
+			<h1>ARNGREN</h1>
 		</div>
 		<div class="logintext"> 
 			<h1><span style = "color: #ecd846;">User </span>Log In</h1>
@@ -96,7 +96,7 @@
 		<div class="contextimg">
 			<figure>
 			<img src = "../../assets/images/logo.PNG" alt="arngenlogo">
-			<figcaption><h3>www.Arngren.net</h3>Appliances and Gadgets Online Shopping Platform</figcaption>
+			<figcaption><h3>ARNGREN</h3>Appliances and Gadgets Online Shopping Platform</figcaption>
 			</figure>
 		</div>
 		<div class="container">
@@ -121,7 +121,7 @@
 			<hr>
 			
 			<div class="formfooter">
-				<p>New to www.Arngren.net?
+				<p>New to ARNGREN?
 				<a href="registration.php">Sign Up</a>
 				</p>
 			</div>
@@ -130,7 +130,7 @@
 	<div class="footer">
 		<br>
 		<hr>
-		<p>&copy; 2021 ARNGREN. ALL RIGHTS RESERVED</p>
+		<p>&copy; 2026 ARNGREN. ALL RIGHTS RESERVED</p>
 	</div>
 </body>
 </html>

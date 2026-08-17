@@ -1,4 +1,4 @@
-/***** Auth CSS *****/
+/***** Login CSS (Admin & User) *****/
 
 * {
     margin: 0;
@@ -21,7 +21,7 @@ body {
     padding: 15px 30px;
     background-color: white;
     align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     width: 100%;
 }
 
@@ -30,7 +30,8 @@ body {
     object-fit: contain;
 }
 
-.logotext h1, .logintext h1 {
+.logotext h1, 
+.logintext h1 {
     padding-left: 15px;
     font-size: 22px;
     color: #ee4d2d;
@@ -65,24 +66,25 @@ figcaption {
     font-size: 20px;
     font-weight: 600;
     margin-top: 15px;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Form Container Card */
 .container {
     background-color: white;
-    padding: 30px;
+    padding: 25px 30px;
     border-radius: 8px;
     width: 100%;
     max-width: 380px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    height: auto; /* Fluid height to adapt to form fields dynamically */
 }
 
 .formheader {
     font-size: 20px;
     font-weight: 700;
     color: #222;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .form input, 
@@ -121,6 +123,7 @@ input[type=submit] {
     cursor: pointer;
     transition: background-color 0.2s;
     text-align: center;
+    margin-bottom: 10px;
 }
 
 .container button:hover,
@@ -138,7 +141,7 @@ input[type=submit]:hover {
 .formfooter {
     text-align: center;
     font-size: 13px;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .formfooter p {
@@ -180,6 +183,6 @@ input[type=submit]:hover {
         justify-content: center;
     }
     .contextimg {
-        display: none; /* Hide illustrative graphics on mobile auth pages for compact UX */
+        display: none; 
     }
 }

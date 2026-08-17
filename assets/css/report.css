@@ -1,294 +1,221 @@
-/***** Report CSS *****/
+/********** Dashboard CSS - Reports **********/
 
-*{
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-			font-family: Helvetica;
-		}
-		
-		body {
-			overflow-x: hidden;
-		}
-		
-		.sidebarcontainer {
-			position: relative;
-			width: 100%;
-		}
-		
-		.sidebar {
-			position: fixed;
-			width: 325px;
-			height: 100%;
-			background: #c45b56;
-			transition: 0.5s;
-			overflow: hidden;
-		}
-		
-		.sidebar a.active {
-			background:  #ecd846;
-			color: #ecd846;
-		}
-		
-		.sidebar ul li a.active .icon .fa {
-			color: #c45b56;
-			font-size: 24px;
-		}
-		
-		.sidebar ul li a.active .title {
-			position: relative;
-			display: block;
-			padding: 0 10px;
-			height: 60px;
-			line-height: 60px;
-			color: #c45b56;
-			white-space: nowrap;
-		}
-		
-		
-		.sidebar ul {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-		}
-		
-		.sidebar ul li {
-			position: relative;
-			width: 100%;
-			list-style: none;
-		}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Helvetica, Arial, sans-serif;
+}
 
-		
-		.sidebar ul li:hover {
-			background: #7a3835;
-		}
-		
-		.sidebar ul li:nth-child(1) {
-			margin-bottom: 10px;
-		}
-		
-		.sidebar ul li:nth-child(1):hover {
-			background: transparent;
-		}
-		
-		.sidebar ul li a {
-			position: relative;
-			display: block;
-			width: 100%;
-			display: flex;
-			text-decoration: none;
-		}
-		
-		.sidebar ul li a .icon { 
-			position: relative;
-			display: block;
-			min-width: 60px;
-			height: 60px;
-			line-height: 60px;
-			text-align: center;
-		}
-		
-		.sidebar ul li a .icon .fa {
-			color: #ecd846;
-			font-size: 24px;
-		}
-		
-		.sidebar ul li a .title {
-			position: relative;
-			display: block;
-			padding: 0 10px;
-			height: 60px;
-			line-height: 60px;
-			color: #ecd846;
-			white-space: nowrap;
-		}
-		
-		.main {
-			position: absolute;
-			width: calc(100% - 325px);
-			left: 325px;
-			min-height: 100vh;
-			background: lightgrey;
-		}
-		
-		.main .topbar {
-			width: 100%;
-			background: white;
-			height: 60px;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			padding: 20px;
-		}
-		
-		.main .topbar i {
-			font-size: 25px;
-		}
-		
-		.main .topbar small {
-			visibility: visible;
-			padding: 10px;
-		}
-		
-		<!--Main Content-->
-		body {
-            font-family: 'Open sans', sans-serif;
-             background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
-            background-repeat: no-repeat;
-            background-attachment: fixed;  
-            background-size: cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0px;
-             font-size: 17px;
-            padding: 8px;
-        }
+body {
+    overflow-x: hidden;
+    background-color: #f5f5f5;
+}
 
-        .container {
-            padding: 16px;
-            background-color: lightgrey;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            width: 1000px;
-            max-width: 100%;
-            height: 550px;
-        }
+.sidebarcontainer {
+    position: relative;
+    width: 100%;
+}
 
-        .dropdailybtn{
-            background-color: #c45b56;
-            color: #ecd846;
-            padding: 16px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-        }
+.sidebar {
+    position: fixed;
+    width: 260px;
+    height: 100%;
+    background: #ffffff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    transition: 0.5s;
+    overflow: hidden;
+    border-right: 1px solid #e5e5e5;
+}
 
-        .dropdowndaily{
-            position: relative;
-            display: inline-block;
-            align-items: left;
-        }
+.sidebar ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-top: 10px;
+}
 
-        .dropdowndaily-content{
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
+.sidebar ul li {
+    position: relative;
+    width: 100%;
+    list-style: none;
+}
 
-        .dropdowndaily-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
+.sidebar ul li:hover {
+    background: #fff2ef; /* Light Shopee Orange tint */
+}
 
-        .dropdownweekly-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
+.sidebar ul li:nth-child(1) {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
 
-        .dropdowndaily-content a:hover  {
-        	background-color: #f1f1f1
-        }
+.sidebar ul li:nth-child(1):hover {
+    background: transparent;
+}
 
-        .dropdowndaily:hover .dropdowndaily-content {
-            display: block;
-        }
+.sidebar ul li a {
+    position: relative;
+    display: flex;
+    width: 100%;
+    text-decoration: none;
+    align-items: center;
+}
 
-        .dropdowndaily:hover .dropdailybtn {
-            background-color: #7a3835;
-        }
+.sidebar ul li a .icon {
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 55px;
+    line-height: 55px;
+    text-align: center;
+}
 
-        .dropweeklybtn {
-            background-color: #c45b56;
-            color: #ecd846;
-            padding: 16px;
-            font-size: 16px;
-            border: none;
-			cursor: pointer;
-        }
+.sidebar ul li a .icon .fa {
+    color: #555555;
+    font-size: 18px;
+    transition: color 0.3s;
+}
 
-        .dropdownweekly {
-            position: relative;
-            display: inline-block;
-        }
+.sidebar ul li a .title {
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 55px;
+    line-height: 55px;
+    color: #333333;
+    white-space: nowrap;
+    font-size: 14px;
+}
 
-        .dropdownweekly-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
+/* Active Menu Item (Shopee Orange Style) */
+.sidebar ul li a.active {
+    background: #ee4d2d;
+    color: #ffffff;
+}
 
-        .dropdownweekly-content a {
-           color: black;
-           padding: 12px 16px;
-           text-decoration: none;
-           display: block;
-        }
+.sidebar ul li a.active .icon .fa,
+.sidebar ul li a.active .title {
+    color: #ffffff;
+}
 
-        .dropdownweekly-content a:hover {background-color: #f1f1f1}
+.sidebar ul li:hover a:not(.active) .icon .fa,
+.sidebar ul li:hover a:not(.active) .title {
+    color: #ee4d2d;
+}
 
-        .dropdownweekly:hover .dropdownweekly-content {
-           display: block;
-        }
+.main {
+    position: absolute;
+    width: calc(100% - 260px);
+    left: 260px;
+    min-height: 100vh;
+    background: #f5f5f5;
+}
 
-        .dropdownweekly:hover .dropweeklybtn {
-            background-color: #7a3835;
-        }
+.main .topbar {
+    width: 100%;
+    background: white;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
 
-        .dropmonthlybtn {
-            background-color: #c45b56;
-            color: #ecd846;
-            padding: 16px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-        }
+.main .topbar i {
+    font-size: 22px;
+    color: #ee4d2d !important;
+}
 
-        .dropdownmonthly {
-           position: relative;
-           display: inline-block;
-		}
+.main .topbar small {
+    visibility: visible;
+    color: #333333;
+    font-weight: 600;
+}
 
-        .dropdownmonthly-content {
-           display: none;
-           position: absolute;
-           background-color: #f9f9f9;
-           min-width: 160px;
-           box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-           z-index: 1;
-        }
+/* Main Content & Report Container */
+.container {
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    width: calc(100% - 60px);
+    max-width: 1200px;
+    margin: 30px auto;
+    min-height: 450px;
+}
 
-        .dropdownmonthly-content a {
-           color: black;
-           padding: 12px 16px;
-           text-decoration: none;
-           display: block;
-        }
+/* Dropdown Buttons */
+.dropdailybtn,
+.dropweeklybtn,
+.dropmonthlybtn {
+    background-color: #ee4d2d;
+    color: #ffffff;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
 
-        .dropdownmonthly-content a:hover {background-color: #f1f1f1}
+.dropdailybtn:hover,
+.dropweeklybtn:hover,
+.dropmonthlybtn:hover {
+    opacity: 0.85;
+}
 
-        .dropdownmonthly:hover .dropdownmonthly-content {
-           display: block;
-        }
+.dropdowndaily,
+.dropdownweekly,
+.dropdownmonthly {
+    position: relative;
+    display: inline-block;
+    margin-right: 15px;
+    margin-bottom: 20px;
+}
 
-        .dropdownmonthly:hover .dropmonthlybtn {
-           background-color: #7a3835;
-        }
+.dropdowndaily-content,
+.dropdownweekly-content,
+.dropdownmonthly-content {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 160px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    z-index: 10;
+    overflow: hidden;
+}
 
-        .chart{
-        	align-items: center;
-        	object-position: center;
-        }
+.dropdowndaily-content a,
+.dropdownweekly-content a {
+    color: #333333;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 13px;
+}
+
+.dropdowndaily-content a:hover,
+.dropdownweekly-content a:hover {
+    background-color: #fff2ef;
+    color: #ee4d2d;
+}
+
+.dropdowndaily:hover .dropdowndaily-content,
+.dropdownweekly:hover .dropdownweekly-content,
+.dropdownmonthly:hover .dropdownmonthly-content {
+    display: block;
+}
+
+.chart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    object-position: center;
+    margin-top: 20px;
+}

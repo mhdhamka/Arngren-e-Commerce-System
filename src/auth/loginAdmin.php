@@ -45,7 +45,7 @@ if(isset($_POST['submit']))
 <head>
 	<title>Arngren | Log In</title>
 	<link rel="icon" type="image/x-icon" href="../../assets/images/logo.PNG">
-	<link rel="stylesheet" href="../../assets/css/loginAdmin.css">
+	<link rel="stylesheet" href="../../assets/css/login.css">
 </head>
 <body>
 	<div class="header">
@@ -53,7 +53,7 @@ if(isset($_POST['submit']))
 			<img src = "../../assets/images/logo.PNG" alt="logo" >
 		</div>
 		<div class="logotext">
-			<h1>www.Arngren.net</h1>
+			<h1>ARNGREN</h1>
 		</div>
 		<div class="logintext">
 			<h1><span style = "color: #ecd846;">Admin</span> Log In</h1>
@@ -63,7 +63,7 @@ if(isset($_POST['submit']))
 		<div class="contextimg">
 			<figure>
 			<img src = "../../assets/images/logo.PNG" alt="arngenlogo">
-			<figcaption><h3>www.Arngren.net</h3>Appliances and Gadgets Online Shopping Platform</figcaption>
+			<figcaption><h3>ARNGREN</h3>Appliances and Gadgets Online Shopping Platform</figcaption>
 			</figure>
 		</div>
 		<div class="container">
@@ -86,7 +86,7 @@ if(isset($_POST['submit']))
 	<div class="footer">
 		<br>
 		<hr>
-		<p>&copy; 2021 ARNGREN. ALL RIGHTS RESERVED</p>
+		<p>&copy; 2026 ARNGREN. ALL RIGHTS RESERVED</p>
 	</div>
 </body>
 </html>
