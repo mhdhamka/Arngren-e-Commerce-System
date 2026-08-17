@@ -1,0 +1,154 @@
+# Arngren E-Commerce Platform
+
+# Installation Guide
+
+## 1. Clone Repository
+
+Download the project:
+
+```bash
+git clone https://github.com/yourusername/Arngren-e-Commerce-System.git
+```
+
+Navigate into the project:
+
+```bash
+cd Arngren-e-Commerce-System
+```
+
+---
+
+# 2. Install PHP Dependencies
+
+The `vendor` folder is not included in this repository.
+
+This is intentional because Composer can regenerate it automatically.
+
+Make sure Composer is installed:
+
+```bash
+composer --version
+```
+
+Install all required libraries:
+
+```bash
+composer install
+```
+
+This will recreate:
+
+```text
+vendor/
+├── phpmailer/
+├── composer/
+└── autoload.php
+```
+
+The dependencies are restored using:
+
+```text
+composer.json
+composer.lock
+```
+
+---
+
+# 3. Setup Database
+
+Create a MySQL database:
+
+```sql
+CREATE DATABASE carngren;
+```
+
+Import the provided SQL file or configure your database settings inside:
+
+```text
+config/db_carngren.php
+```
+
+Make sure:
+
+* MySQL is running
+* Database name is correct
+* Username/password matches your local XAMPP setup
+
+---
+
+# 4. Dependency Information
+
+This project uses Composer for PHP package management.
+
+Installed packages:
+
+## PHPMailer
+
+Used for:
+
+* Sending system emails
+* Account notifications and verification support
+
+Install:
+
+```bash
+composer require phpmailer/phpmailer
+```
+
+---
+
+# Troubleshooting
+
+## Vendor folder missing
+
+If you see:
+
+```text
+Warning: require(vendor/autoload.php)
+failed to open stream
+```
+
+Run:
+
+```bash
+composer install
+```
+
+again.
+
+---
+
+## Database connection error / Missing config file
+
+Check:
+
+```text
+config/db_carngren.php
+```
+
+Make sure the relative paths or database parameters match your local server environment.
+
+---
+
+## PHP Extension Requirements
+
+Required PHP extensions:
+
+* `mysqli`
+* `mbstring`
+* `gd`
+* `curl`
+* `openssl`
+
+---
+
+# Development Notes
+
+The `vendor` folder is excluded from GitHub because it contains third-party dependencies that can be regenerated using Composer.
+
+Only the dependency definitions are stored:
+
+```text
+composer.json
+composer.lock
+```
