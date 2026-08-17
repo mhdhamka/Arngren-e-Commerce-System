@@ -24,7 +24,7 @@
 
 <div align="center">
 
-![Arngren Platform Interface](./assets/images/preview.PNG)
+![Arngren Platform Interface](./assets/images/arngren.PNG)
 
 *User add to cart*
 
