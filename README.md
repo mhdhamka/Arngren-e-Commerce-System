@@ -4,7 +4,7 @@
 
 **A robust, full-featured online shopping platform specializing in unique appliances, gadgets, and electronics.**
 
-[Live Demo](https://localhost:3000) · [Report Bug](https://github.com) · [Request Feature](https://github.com)
+[Live Demo](https://localhost:3000) · [Report Bug](https://github.com/mhdhamka/arngren/issues) · [Request Feature](https://github.com/mhdhamka/arngren/issues)
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![PHP](https://img.shields.io/badge/PHP-8.x-777bb4?logo=php)
