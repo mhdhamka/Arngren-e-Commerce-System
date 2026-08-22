@@ -16,7 +16,7 @@
 
 ## Overview
 
-**Arngren E-Commerce Platform** is a secure, multi-tier web application built to streamline online shopping for gadgets and appliances. It features separate administrative and user workflows, comprehensive product inventory management, secure user authentication with password hashing, and real-time login tracking status.
+**Arngren E-Commerce Platform** is a web application built to streamline online shopping for gadgets and appliances. It features separate administrative and user workflows, comprehensive product inventory management, secure user authentication with password hashing, and real-time login tracking status.
 
 ---
 
